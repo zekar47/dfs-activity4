@@ -11,15 +11,31 @@ const Product = require('./models/Product');
 
 const app = express();
 
+let isConnected = false;
+
+mongoose.set('bufferCommands', false);
+
 // Middleware
 app.use(express.json()); // Allows parsing JSON from the frontend
 app.use(cors()); // Allows Vue to connect
 
 // --- DATABASE CONNECTION ---
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ Connected to MongoDB Atlas'))
-  .catch(err => console.error('❌ Connection error:', err));
+const connectDB = async() => {
+  if (isConnected) return;
+  
+  try {
+    const db = await mongoose.connect(process.env.MONGO_URI);
+    isConnected = db.connections[0].readyState;
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("Could not connect to MongoDB", err);
+  }
+};
 
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // --- AUTHENTICATION MIDDLEWARE ---
 // We use this function to protect routes (like creating products)
