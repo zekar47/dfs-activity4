@@ -29,6 +29,8 @@ jobs:
           username: ${{ vars.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            source ~/.profile
+            source ~/.zshrc
             cd ~/product-api
-            npm install --production
+            npm install --omit=dev
             pm2 restart product-api || pm2 start server.js --name product-api
