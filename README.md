@@ -1,7 +1,7 @@
 ---
 title: "Sistema Web de Gestión de Productos con Autenticación JWT"
-author: "Nombre del Estudiante"
-date: "\today"
+author: "César Montoya"
+date: \today
 lang: es
 fontsize: 12pt
 geometry: margin=2.5cm
@@ -31,7 +31,7 @@ header-includes:
   - \cfoot{\thepage}
 ---
 
-# 1. Introducción
+# Introducción
 
 Este documento describe el desarrollo de una aplicación web para la gestión de productos que implementa operaciones CRUD protegidas mediante autenticación basada en JWT.
 
@@ -47,7 +47,7 @@ La aplicación fue desarrollada utilizando:
 
 ---
 
-# 2. Objetivo del Proyecto
+# Objetivo del Proyecto
 
 Desarrollar una aplicación web backend segura que permita:
 
@@ -59,34 +59,34 @@ Desarrollar una aplicación web backend segura que permita:
 
 ---
 
-# 3. Requerimientos Funcionales
+# Requerimientos Funcionales
 
-## 3.1 Gestión de Usuarios
+## Gestión de Usuarios
 
 RF-01: El sistema debe permitir el registro de usuarios.  
 RF-02: El sistema debe permitir el inicio de sesión.  
 RF-03: El sistema debe generar un token JWT tras autenticación exitosa.  
 RF-04: El sistema debe permitir cerrar sesión (invalidación en cliente).  
 
-## 3.2 Gestión de Productos
+## Gestión de Productos
 
 RF-05: El usuario autenticado podrá crear productos.  
 RF-06: El usuario autenticado podrá visualizar productos.  
 RF-07: El usuario autenticado podrá actualizar productos.  
 RF-08: El usuario autenticado podrá eliminar productos.  
 
-## 3.3 Seguridad
+## Seguridad
 
 RF-09: Las rutas de productos deben estar protegidas mediante JWT.  
 RF-10: El sistema debe validar el token en cada solicitud protegida.  
 
-## 3.4 Interfaz
+## Interfaz
 
 RF-11: Debe existir una vista HTML estática para login.  
 
 ---
 
-# 4. Requerimientos No Funcionales
+# Requerimientos No Funcionales
 
 RNF-01: La aplicación debe seguir arquitectura RESTful.  
 RNF-02: El sistema debe responder en menos de 500ms en condiciones normales.  
@@ -98,9 +98,9 @@ RNF-07: El sistema debe ejecutarse en entorno Linux (Uberspace).
 
 ---
 
-# 5. Arquitectura del Sistema
+# Arquitectura del Sistema
 
-## 5.1 Arquitectura General
+## Arquitectura General
 
 Arquitectura en capas:
 
@@ -110,7 +110,7 @@ Arquitectura en capas:
 - Middlewares (Auth)
 - Base de datos (MongoDB)
 
-## 5.2 Flujo de Autenticación
+## Flujo de Autenticación
 
 1. Usuario envía credenciales.
 2. Servidor valida usuario.
@@ -120,9 +120,9 @@ Arquitectura en capas:
 
 ---
 
-# 6. Modelo de Datos
+# Modelo de Datos
 
-## 6.1 Entidades
+## Entidades
 
 ### Usuario
 - _id
@@ -141,7 +141,7 @@ Arquitectura en capas:
 
 ---
 
-# 7. Diagrama Entidad-Relación
+# Diagrama Entidad-Relación
 
 ```mermaid
 erDiagram
@@ -168,9 +168,9 @@ Cada producto pertenece a un único usuario.
 
 ---
 
-# 8. Configuración del Servidor
+# Configuración del Servidor
 
-## 8.1 Dependencias principales
+## Dependencias principales
 
 * express
 * mongoose
@@ -180,7 +180,7 @@ Cada producto pertenece a un único usuario.
 * jest
 * supertest
 
-## 8.2 Middlewares
+## Middlewares
 
 * express.json()
 * middleware de autenticación JWT
@@ -188,14 +188,14 @@ Cada producto pertenece a un único usuario.
 
 ---
 
-# 9. Controladores
+# Controladores
 
-## 9.1 UserController
+## UserController
 
 * register()
 * login()
 
-## 9.2 ProductController
+## ProductController
 
 * createProduct()
 * getProducts()
@@ -206,7 +206,7 @@ Cada controlador interactúa con MongoDB mediante Mongoose.
 
 ---
 
-# 10. Pruebas Unitarias
+# Pruebas Unitarias
 
 Se configuró Jest para:
 
@@ -224,7 +224,7 @@ Cobertura mínima objetivo: 80%.
 
 ---
 
-# 11. CI/CD con GitHub Actions
+# CI/CD con GitHub Actions
 
 Pipeline automatizado:
 
@@ -256,7 +256,7 @@ jobs:
 
 ---
 
-# 12. Justificación de la Plataforma SaaS
+# Justificación de la Plataforma SaaS
 
 Se eligió Uberspace por las siguientes razones:
 
@@ -274,7 +274,7 @@ A diferencia de plataformas serverless, Uberspace permite:
 
 ---
 
-# 13. Instrucciones de Ejecución
+# Instrucciones de Ejecución
 
 1. Clonar repositorio.
 2. Instalar dependencias:
@@ -299,7 +299,7 @@ npm run dev
 
 ---
 
-# 14. Repositorio
+# Repositorio
 
 El repositorio incluye:
 
@@ -314,7 +314,7 @@ Enlace:
 
 ---
 
-# 15. Conclusión
+# Conclusión
 
 El proyecto implementa una arquitectura backend segura utilizando JWT, MongoDB y Node.js, incorporando buenas prácticas de desarrollo, pruebas automatizadas y despliegue continuo.
 
