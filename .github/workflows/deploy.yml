@@ -30,6 +30,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/product-api
-            npm install --omit=dev
-            /home/${{ vars.SSH_USERNAME }}/bin/pm2 restart product-api || \
-            /home/${{ vars.SSH_USERNAME }}/bin/pm2 start server.js --name product-api
+            npm install --production
+            pm2 restart product-api || pm2 start server.js --name product-api
