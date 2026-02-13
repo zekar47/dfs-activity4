@@ -18,8 +18,8 @@ app.use(express.static('public'));
 connectDB();
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 // Basic test route
 app.get('/', (req, res) => {
