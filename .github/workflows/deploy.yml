@@ -33,4 +33,5 @@ jobs:
             source ~/.zshrc
             cd ~/product-api
             npm install --omit=dev
-            pm2 restart product-api || pm2 start server.js --name product-api
+            /home/${{ vars.SSH_USERNAME }}/bin/pm2 restart product-api || \
+            /home/${{ vars.SSH_USERNAME }}/bin/pm2 start server.js --name product-api
