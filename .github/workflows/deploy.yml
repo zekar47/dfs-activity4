@@ -1,11 +1,31 @@
-name: Deploy Product API to Uberspace
+name: CI/CD Product API
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-and-deploy:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+  deploy:
+    needs: test   # ← THIS makes deploy wait for tests
     runs-on: ubuntu-latest
 
     steps:
@@ -22,15 +42,13 @@ jobs:
           remote_user: ${{ vars.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Install dependencies & restart server
+      - name: Install & Restart Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            source ~/.profile
-            source ~/.zshrc
             cd ~/product-api
             npm install --omit=dev
             /home/${{ vars.SSH_USERNAME }}/bin/pm2 restart product-api || \
