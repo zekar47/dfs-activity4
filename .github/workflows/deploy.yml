@@ -50,6 +50,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/product-api
+
+            echo "PORT=3000" > .env
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+
             npm install --omit=dev
             /home/${{ vars.SSH_USERNAME }}/bin/pm2 restart product-api || \
             /home/${{ vars.SSH_USERNAME }}/bin/pm2 start server.js --name product-api
