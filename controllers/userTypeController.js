@@ -1,3 +1,4 @@
+// controllers/userTypeController.js
 const UserType = require('../models/UserType');
 
 // Create
