@@ -1,3 +1,4 @@
+// models/UserType.js
 const mongoose = require('mongoose');
 
 const UserTypeSchema = new mongoose.Schema({
