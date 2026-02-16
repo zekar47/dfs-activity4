@@ -1,0 +1,80 @@
+:root {
+    --primary: #4f46e5;
+    --secondary: #64748b;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+}
+
+body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+h2, h3 { color: #1e293b; text-align: center; }
+input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+button { width: 100%; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; margin-top: 10px; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #4338ca; }
+.btn-danger { background: var(--danger); color: white; }
+.nav-link { display: block; text-align: center; margin-top: 15px; color: var(--primary); text-decoration: none; font-size: 0.9rem; }
+ul { list-style: none; padding: 0; }
+li { background: #f1f5f9; padding: 10px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+.actions button { width: auto; padding: 5px 10px; margin-left: 5px; font-size: 0.8rem; }
+
+/* Mejora de los items de la lista */
+li.product-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.product-info strong {
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-bottom: 1px dashed transparent;
+}
+
+.product-info strong:hover {
+    border-bottom-color: var(--primary);
+}
+
+.desc {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.price-tag {
+    color: #059669;
+    font-weight: bold;
+}
+
+/* Input de edición rápida */
+.inline-edit {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 2px 5px;
+    width: auto;
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    margin: 0;
+}
+
+/* Botón Danger */
+.btn-danger {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 6px 12px;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    color: white;
+}

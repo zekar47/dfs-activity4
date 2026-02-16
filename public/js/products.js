@@ -1,90 +1,126 @@
 const token = localStorage.getItem('token');
 
 if (!token) {
-  window.location.href = '/login.html';
+    window.location.href = '/login.html';
 }
 
-// Helper for headers
 function authHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + token
-  };
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    };
 }
 
-// Load products on page load
 window.onload = loadProducts;
 
 async function loadProducts() {
-  const response = await fetch('/api/products', {
-    headers: authHeaders()
-  });
+    const response = await fetch('/api/products', { headers: authHeaders() });
 
-  if (!response.ok) {
-    alert('Unauthorized');
-    return;
-  }
+    if (!response.ok) {
+        if(response.status === 401) logout();
+        return;
+    }
 
-  const products = await response.json();
+    const products = await response.json();
+    const list = document.getElementById('productList');
+    list.innerHTML = '';
 
-  const list = document.getElementById('productList');
-  list.innerHTML = '';
-
-  products.forEach(product => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      ${product.name} - $${product.price}
-      <button onclick="editProduct('${product._id}')">Edit</button>
-      <button onclick="deleteProduct('${product._id}')">Delete</button>
-    `;
-    list.appendChild(li);
-  });
+    products.forEach(product => {
+        const li = document.createElement('li');
+        li.className = 'product-item';
+        li.innerHTML = `
+            <div class="product-info">
+                <strong class="editable" onclick="makeEditable(this, '${product._id}', 'name')">${product.name}</strong>
+                <p class="editable desc" onclick="makeEditable(this, '${product._id}', 'description')">${product.description || 'Sin descripción'}</p>
+                <span class="price-tag">$<span class="editable" onclick="makeEditable(this, '${product._id}', 'price')">${product.price}</span></span>
+            </div>
+            <div class="actions">
+                <button class="btn-danger" onclick="deleteProduct('${product._id}')">Eliminar</button>
+            </div>
+        `;
+        list.appendChild(li);
+    });
 }
 
-// CREATE
+// Función para convertir texto en input automáticamente
+function makeEditable(element, id, field) {
+    const originalValue = element.innerText;
+    const input = document.createElement('input');
+    input.value = originalValue;
+    input.className = 'inline-edit';
+    
+    // Si es precio, que sea tipo número
+    if (field === 'price') input.type = 'number';
+
+    element.replaceWith(input);
+    input.focus();
+
+    // Guardar al perder el foco o presionar Enter
+    input.onblur = () => saveInlineEdit(input, element, id, field, originalValue);
+    input.onkeydown = (e) => {
+        if (e.key === 'Enter') input.blur();
+        if (e.key === 'Escape') {
+            input.value = originalValue; // Cancelar
+            input.blur();
+        }
+    };
+}
+
+async function saveInlineEdit(input, originalElement, id, field, originalValue) {
+    const newValue = input.value;
+
+    if (newValue === originalValue) {
+        input.replaceWith(originalElement);
+        return;
+    }
+
+    const response = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ [field]: newValue })
+    });
+
+    if (response.ok) {
+        originalElement.innerText = newValue;
+        input.replaceWith(originalElement);
+    } else {
+        alert('Error al actualizar');
+        loadProducts();
+    }
+}
+
 async function createProduct() {
-  const name = document.getElementById('name').value;
-  const description = document.getElementById('description').value;
-  const price = document.getElementById('price').value;
+    const name = document.getElementById('name').value;
+    const description = document.getElementById('description').value;
+    const price = document.getElementById('price').value;
 
-  await fetch('/api/products', {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({ name, description, price })
-  });
+    if (!name || !price) return alert("Nombre y precio son obligatorios");
 
-  loadProducts();
+    const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ name, description, price })
+    });
+
+    if (res.ok) {
+        document.getElementById('name').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('price').value = '';
+        loadProducts();
+    }
 }
 
-// DELETE
 async function deleteProduct(id) {
-  await fetch('/api/products/' + id, {
-    method: 'DELETE',
-    headers: authHeaders()
-  });
-
-  loadProducts();
+    if (!confirm('¿Estás seguro de eliminar este producto?')) return;
+    
+    await fetch('/api/products/' + id, {
+        method: 'DELETE',
+        headers: authHeaders()
+    });
+    loadProducts();
 }
 
-// UPDATE (simple prompt version)
-async function editProduct(id) {
-  const newName = prompt("New name:");
-  const newPrice = prompt("New price:");
-
-  await fetch('/api/products/' + id, {
-    method: 'PUT',
-    headers: authHeaders(),
-    body: JSON.stringify({
-      name: newName,
-      price: newPrice
-    })
-  });
-
-  loadProducts();
-}
-
-// LOGOUT
 function logout() {
-  localStorage.removeItem('token');
-  window.location.href = '/login.html';
+    localStorage.removeItem('token');
+    window.location.href = '/login.html';
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Registro - Product Manager</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<div class="container">
+			<h2>Crear Cuenta</h2>
+			<input type="text" id="regName" placeholder="Nombre Completo">
+			<input type="email" id="regEmail" placeholder="Correo Electrónico">
+			<input type="password" id="regPassword" placeholder="Contraseña">
+
+			<label for="userType">Tipo de Usuario:</label>
+			<select id="userTypeSelect">
+			</select>
+
+			<button class="btn-primary" onclick="register()">Registrarse</button>
+			<a href="login.html" class="nav-link">¿Ya tienes cuenta? Inicia sesión</a>
+		</div>
+		<script src="js/auth.js"></script>
+		<script>
+			// Cargar UserTypes al abrir la página
+			window.onload = async () => {
+				const res = await fetch('/api/usertypes');
+				const types = await res.json();
+				const select = document.getElementById('userTypeSelect');
+				types.forEach(t => {
+					select.innerHTML += `<option value="${t.name}">${t.name}</option>`;
+					});
+					};
+		</script>
+	</body>
+</html>

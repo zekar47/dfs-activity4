@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Products</title>
-	</head>
-	<body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Product Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .container { max-width: 600px; }
+        .product-form { border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Gestión de Productos</h2>
+            <button class="btn-danger" style="width: auto;" onclick="logout()">Salir</button>
+        </div>
 
-		<h2>Product Manager</h2>
+        <div class="product-form">
+            <h3>Nuevo Producto</h3>
+            <input type="text" id="name" placeholder="Nombre">
+            <input type="text" id="description" placeholder="Descripción">
+            <input type="number" id="price" placeholder="Precio">
+            <button class="btn-primary" onclick="createProduct()">Guardar Producto</button>
+        </div>
 
-		<button onclick="logout()">Logout</button>
-
-		<h3>Create Product</h3>
-		<input type="text" id="name" placeholder="Name">
-		<input type="text" id="description" placeholder="Description">
-		<input type="number" id="price" placeholder="Price">
-
-		<button onclick="createProduct()">Save</button>
-
-		<h3>Your Products</h3>
-		<ul id="productList"></ul>
-
-		<script src="js/products.js"></script>
-	</body>
+        <h3>Mis Productos</h3>
+        <ul id="productList"></ul>
+    </div>
+    <script src="js/products.js"></script>
+</body>
 </html>
