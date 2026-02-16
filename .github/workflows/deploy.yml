@@ -23,6 +23,10 @@ jobs:
 
       - name: Run Tests
         run: npm test
+        env:
+          NODE_ENV: test
+          MONGO_TEST_URI: ${{ secrets.MONGO_TEST_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
   deploy:
     needs: test   # ← THIS makes deploy wait for tests
