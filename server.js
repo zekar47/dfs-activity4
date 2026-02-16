@@ -1,5 +1,6 @@
 // server.js
 require('dotenv').config();
+console.log();
 
 const express = require('express');
 const connectDB = require('./config/db');
