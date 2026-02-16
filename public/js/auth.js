@@ -21,9 +21,6 @@ async function register() {
     const name = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
     const password = document.getElementById('regPassword').value;
-    // Nota: El backend actual no guarda el UserType en el modelo User, 
-    // pero lo enviamos por si decides extender el modelo.
-    const userType = document.getElementById('userTypeSelect').value;
 
     const response = await fetch('/api/auth/register', {
         method: 'POST',
