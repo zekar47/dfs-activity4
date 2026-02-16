@@ -39,6 +39,15 @@ exports.updateProduct = async (req, res) => {
 
 // Delete product
 exports.deleteProduct = async (req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
+  const product = await Product.findById(req.params.id);
+
+  if (!product) return res.status(404).json({ message: 'Not found' });
+
+  // Check if the product belongs to the user
+  if (product.user.toString() !== req.user.id) {
+    return res.status(403).json({ message: 'Not authorized to delete this' });
+  }
+
+  await product.deleteOne();
   res.json({ message: 'Deleted successfully' });
 };
