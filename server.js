@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
+//const userTypeRoutes = require('./routes/userTypeRoutes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static('public'));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+//app.use('/api/user-types', userTypeRoutes);
 
 // Basic test route
 app.get('/', (req, res) => {

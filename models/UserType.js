@@ -2,12 +2,12 @@
 const mongoose = require('mongoose');
 
 const UserTypeSchema = new mongoose.Schema({
-  nombre: {
+  name: {
     type: String,
     required: true,
     unique: true
   },
-  descripcion: {
+  description: {
     type: String,
     required: false
   }

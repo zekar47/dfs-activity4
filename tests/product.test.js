@@ -1,4 +1,5 @@
 const request = require('supertest');
+const mongoose = require('mongoose')
 const app = require('../server');
 const User = require('../models/User');
 const Product = require('../models/Product');
@@ -45,17 +46,27 @@ describe('Product API', () => {
   });
 
   it('should only fetch products belonging to the logged-in user', async () => {
-    // 1. Create a product for our user
-    await Product.create({ name: 'My Item', price: 50, user: userId });
-    
-    // 2. Create a product for a DIFFERENT user
-    await Product.create({ name: 'Stranger Item', price: 100, user: '65cb67c8e9b3f2a1c8d7e6f5' });
+    // 1. Create a product for our user using the dynamic userId from beforeEach
+    await Product.create({ 
+      name: 'My Item', 
+      price: 50, 
+      user: userId // Ensure this is the same user we are logged in as
+    });
+
+    // 2. Create a product for a completely different ID
+    const strangerId = new mongoose.Types.ObjectId(); 
+    await Product.create({ 
+      name: 'Stranger Item', 
+      price: 100, 
+      user: strangerId 
+    });
 
     const res = await request(app)
       .get('/api/products')
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.statusCode).toBe(200);
+    // If it's still 0, we check the controller logic
     expect(res.body.length).toBe(1);
     expect(res.body[0].name).toBe('My Item');
   });
